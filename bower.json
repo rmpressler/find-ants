@@ -1,0 +1,11 @@
+{
+  "name": "findants",
+  "authors": [
+    "Richard Pressler <rmpressler@gmail.com>"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8",
+    "bootstrap": "^3.3.7",
+    "angular-ui-router": "^0.3.1"
+  }
+}

@@ -1,0 +1,21 @@
+<div class="text-center">
+    <h2>Expense Accounts</h2>
+    <button class="btn btn-primary">Log Spending</button>
+</div>
+
+<div class="account-list">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="account in accList.expenseAccounts">
+            <td>{{account.name}}</td>
+            <td>${{account.balance}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

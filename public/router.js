@@ -6,16 +6,18 @@
         var homeState = {
             name: 'home',
             url: '/',
-            templateUrl: '/views/home.html'
+            templateUrl: '/pages/home.html'
         };
 
-        var ledgerState = {
-            name: 'ledger',
-            url: '/ledger',
-            templateUrl: '/views/ledger.html'
+        var dashboardState = {
+            name: 'dashboard',
+            url: '/dashboard',
+            templateUrl: '/pages/dashboard/dashboard.html',
+            controller: 'DashboardController',
+            controllerAs: 'dash'
         };
 
         $stateProvider.state(homeState);
-        $stateProvider.state(ledgerState);
+        $stateProvider.state(dashboardState);
     }
 })();

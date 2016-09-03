@@ -3,21 +3,44 @@
 <head>
     <base href="/">
 
+    <!-- Library stylesheets -->
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <!-- Page stylesheets -->
+    <link rel="stylesheet" type="text/css" href="pages/dashboard/dashboard.css">
+
+    <!-- Component stylesheets -->
+    <link rel="stylesheet" type="text/css" href="components/account-list/account-list.css">
+    <link rel="stylesheet" type="text/css" href="components/bill-overview/bill-overview.css">
 </head>
 <body ng-app="find-ants">
     <fa-header></fa-header>
 
     <ui-view></ui-view>
 
+    <!-- Libraries -->
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 
+    <!-- Core Scripts -->
     <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="filters.js"></script>
     <script type="text/javascript" src="router.js"></script>
 
+    <!-- Page Controllers -->
+    <script type="text/javascript" src="pages/dashboard/dashboard.controller.js"></script>
+
+    <!-- Component Controllers -->
+    <script type="text/javascript" src="components/account-list/account-list.controller.js"></script>
+    <script type="text/javascript" src="components/bill-overview/bill-overview.controller.js"></script>
+
+    <!-- Component Directives -->
     <script type="text/javascript" src="components/header/header.directive.js"></script>
+    <script type="text/javascript" src="components/account-list/account-list.directive.js"></script>
+    <script type="text/javascript" src="components/bill-overview/bill-overview.directive.js"></script>
 </body>
 </html>

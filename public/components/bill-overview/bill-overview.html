@@ -1,0 +1,25 @@
+<div class="text-center">
+    <h2>Bill Overview</h2>
+    <button class="btn btn-primary">Manage Bills</button>
+</div>
+
+<div class="bill-overview">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="bill in billOverview.upcomingBills | orderBy:'date'">
+            <td>{{bill.date | date:short}}</td>
+            <td>{{bill.name}}</td>
+            <td>${{bill.amount}}</td>
+            <td>{{bill.allocated | asAllocated}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

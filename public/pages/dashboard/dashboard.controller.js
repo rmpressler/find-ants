@@ -2,9 +2,11 @@
     angular.module('find-ants')
         .controller('DashboardController', DashboardController);
 
-    function DashboardController() {
+    DashboardController.$inject = ['CurrentUser'];
+    function DashboardController(CurrentUser) {
         var vm = this;
 
-        vm.currentLedger = 'General Expense';
+        // Expose injected user to the view
+        vm.currentUser = CurrentUser;
     }
 })();

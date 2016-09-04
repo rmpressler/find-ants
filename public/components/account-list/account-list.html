@@ -1,6 +1,5 @@
 <div class="text-center">
     <h2>Expense Accounts</h2>
-    <button class="btn btn-primary">Log Spending</button>
 </div>
 
 <div class="account-list">
@@ -9,12 +8,14 @@
         <tr>
             <th>Name</th>
             <th>Balance</th>
+            <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="account in accList.expenseAccounts">
             <td>{{account.name}}</td>
             <td>${{account.balance}}</td>
+            <td><button class="btn btn-default" ng-click="accList.logSpending(account._id)">Log Spend</button></td>
         </tr>
         </tbody>
     </table>

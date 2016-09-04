@@ -6,7 +6,9 @@
         var homeState = {
             name: 'home',
             url: '/',
-            templateUrl: '/pages/home.html'
+            templateUrl: '/pages/home/home.html',
+            controller: 'HomeController',
+            controllerAs: 'home'
         };
 
         var dashboardState = {
@@ -14,10 +16,17 @@
             url: '/dashboard',
             templateUrl: '/pages/dashboard/dashboard.html',
             controller: 'DashboardController',
-            controllerAs: 'dash'
+            controllerAs: 'dash',
+            resolve: {
+                CurrentUser: authenticationResolve
+            }
         };
 
         $stateProvider.state(homeState);
         $stateProvider.state(dashboardState);
+
+        function authenticationResolve(authenticator) {
+            return authenticator.getCurrentUser();
+        }
     }
 })();

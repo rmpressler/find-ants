@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Log Spending <a href="" ng-click="spend.close()" class="pull-right">&times;</a></h3>
+</div>
+
+<div class="modal-body" id="modal-body">
+    <div class="row">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="log in spend.loggedItems">
+                    <td><input type="date" ng-model="log.date"></td>
+                    <td><input type="text" ng-model="log.description"></td>
+                    <td>$ <input type="number" ng-model="log.amount" style="width: 75px;"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <button class="btn btn-default" ng-click="spend.addRow()">+ Add Row</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" type="button" ng-click="spend.close()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="spend.submit(spend.loggedItems)">Submit</button>
+</div>

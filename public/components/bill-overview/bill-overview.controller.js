@@ -2,11 +2,13 @@
     angular.module('find-ants')
         .controller('BillOverviewController', BillOverviewController);
 
-    BillOverviewController.$inject = [];
-    function BillOverviewController() {
+    BillOverviewController.$inject = ['$uibModal', 'authenticator'];
+    function BillOverviewController($uibModal, authenticator) {
         var vm = this;
 
         vm.bills = [];
+
+        vm.manageBills = manageBills;
 
         init();
 
@@ -20,13 +22,31 @@
             vm.bills = vm.bills.map(getDates);
 
             function getDates(bill) {
-                var existing = new Date(bill.date);
                 var today = new Date();
 
-                bill.date = new Date(today.getFullYear(), today.getMonth(), existing.getDate());
+                bill.date = new Date(today.getFullYear(), today.getMonth(), bill.dayOfMonth);
 
                 return bill;
             }
+        }
+
+        function manageBills() {
+            $uibModal.open({
+                size: 'md',
+                templateUrl: '/components/modals/manage-bills/manage-bills.html',
+                controller: 'ManageBillsController',
+                controllerAs: 'manage',
+                bindToController: true,
+                resolve: {
+                    currentUser: function() {
+                        return vm.currentUser;
+                    }
+                }
+            }).result.then(function() {
+                vm.currentUser = authenticator.getCurrentUser();
+                vm.bills = angular.copy(vm.currentUser.bills);
+                refreshBills();
+            });
         }
     }
 })();

@@ -10,7 +10,7 @@ db.once('open', function() {
 
 var BillSchema = mongoose.Schema({
     name:           String,
-    date:           Date,
+    dayOfMonth:     Number,
     amount:         Number,
     allocated:      Boolean
 });

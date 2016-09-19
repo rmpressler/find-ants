@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Manage Bills <a href="" ng-click="manage.close()" class="pull-right">&times;</a></h3>
+</div>
+
+<div class="modal-body" id="modal-body">
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Bill</th>
+                        <th>Day of Month</th>
+                        <th>Amount</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="bill in manage.bills">
+                        <td><input type="text" ng-model="bill.name" class="form-control"></td>
+                        <td><input type="number" ng-model="bill.dayOfMonth" class="form-control"></td>
+                        <td><input type="number" ng-model="bill.amount" class="form-control"></td>
+                        <td><button class="btn btn-danger" ng-click="manage.removeBill(bill)">&times;</button></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-center"><button class="btn btn-primary" ng-click="manage.addBill()">+ Add Bill</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" type="button" ng-click="manage.close()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="manage.saveBills()">Submit</button>
+</div>

@@ -13,7 +13,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="account in accList.expenseAccounts">
-            <td>{{account.name}}</td>
+            <td><a ui-sref="account-history({accountId: account._id})">{{account.name}}</a></td>
             <td>${{account.balance}}</td>
             <td><button class="btn btn-default" ng-click="accList.logSpending(account._id)">Log Spend</button></td>
         </tr>

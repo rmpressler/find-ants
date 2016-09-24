@@ -1,0 +1,18 @@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="transaction in hist.transactions| orderBy:'date' track by $index ">
+            <td>{{transaction.date | date:'shortDate'}}</td>
+            <td>{{transaction.description}}</td>
+            <td ng-class="{'text-green': transaction.amount > 0, 'text-red': transaction.amount < 0}">{{transaction.amount | currency}}</td>
+            <td>{{hist.balances[$index] | currency}}</td>
+        </tr>
+    </tbody>
+</table>

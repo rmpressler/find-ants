@@ -22,8 +22,17 @@
             }
         };
 
+        var accountHistoryState = {
+            name: 'account-history',
+            url: '/account-history/:accountId',
+            templateUrl: '/pages/account-history/account-history.html',
+            controller: 'AccountHistoryController',
+            controllerAs: 'hist'
+        };
+
         $stateProvider.state(homeState);
         $stateProvider.state(dashboardState);
+        $stateProvider.state(accountHistoryState);
 
         function authenticationResolve(authenticator) {
             return authenticator.getCurrentUser();

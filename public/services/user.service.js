@@ -1,14 +1,17 @@
 (function() {
     angular.module('find-ants')
-        .factory('userService', UserService);
+        .service('userService', UserService);
 
     UserService.$inject = ['dataService'];
     function UserService(dataService) {
-        return {
-            create: create,
-            getBy: getBy,
-            update: update
-        };
+        var service = this;
+
+        var callbacks = {};
+
+        service.create = create;
+        service.getBy = getBy;
+        service.update = update;
+        service.on = on;
 
         function create(user) {
             return dataService.create('users', user)
@@ -29,8 +32,23 @@
             return dataService.update('users', updateObj)
                 .then(function(user) {
                     window.localStorage.setItem('user', JSON.stringify(user));
+                    if (callbacks['update']) {
+                        callbacks['update'].forEach(function(callback) {
+                            if (callback) {
+                                callback(user);
+                            }
+                        });
+                    }
                     return user;
                 });
+        }
+
+        function on(event, callback) {
+            if (!callbacks[event]) {
+                callbacks[event] = [callback];
+            } else {
+                callbacks[event].push(callback);
+            }
         }
     }
 })();

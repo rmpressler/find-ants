@@ -2,8 +2,8 @@
     angular.module('find-ants')
         .controller('AccountListController', AccountListController);
 
-    AccountListController.$inject = ['$uibModal', 'accountService', 'authenticator'];
-    function AccountListController($uibModal, accountService, authenticator) {
+    AccountListController.$inject = ['$uibModal', 'accountService', 'authenticator', 'userService'];
+    function AccountListController($uibModal, accountService, authenticator, userService) {
         var vm = this;
 
         vm.expenseAccounts = angular.copy(vm.currentUser.accounts);
@@ -14,6 +14,10 @@
 
         function init() {
             refreshBalances();
+
+            userService.on('update', function(user) {
+                refreshController(user);
+            });
         }
 
         function logSpending(accountId) {
@@ -30,10 +34,6 @@
                         return accountId;
                     }
                 }
-            }).result.then(function() {
-                vm.currentUser = authenticator.getCurrentUser();
-                vm.expenseAccounts = angular.copy(vm.currentUser.accounts);
-                refreshBalances();
             });
         }
 
@@ -41,6 +41,12 @@
             vm.expenseAccounts.forEach(function (account) {
                 account.balance = accountService.getAccountBalance(account);
             });
+        }
+
+        function refreshController(user) {
+            vm.currentUser = user;
+            vm.expenseAccounts = angular.copy(vm.currentUser.accounts);
+            refreshBalances();
         }
     }
 })();

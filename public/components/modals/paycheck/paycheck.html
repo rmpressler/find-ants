@@ -1,0 +1,64 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Log Paycheck <a href="" ng-click="pay.close()" class="pull-right">&times;</a></h3>
+</div>
+
+<div class="modal-body pay" id="modal-body">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="well text-center">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Pay Date</label>
+                        <input type="date" class="form-control" ng-model="pay.check.date">
+                    </div>
+                    <div class="col-sm-5">
+                        <label>Pay Amount</label>
+                        <input type="number" class="form-control" ng-model="pay.check.amount">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <table class="table table-bordered pay-table" ng-show="pay.showPayTable">
+                <thead>
+                <tr>
+                    <th>Account</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Remove</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="allocation in pay.allocations">
+                    <td><select class="form-control"
+                                ng-options="account._id as account.name for account in pay.accounts"
+                                ng-model="allocation.account"
+                                ng-disabled="allocation.disabled"></select></td>
+                    <td><input type="text" ng-model="allocation.description" class="form-control" ng-disabled="allocation.disabled"></td>
+                    <td><input type="number" ng-model="allocation.amount" class="form-control" ng-disabled="allocation.disabled"></td>
+                    <td><button class="btn btn-danger" ng-click="pay.removeAllocation(allocation)" ng-hide="allocation.disabled">&times;</button></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><span class="pull-right"><b>Remaining:</b></span></td>
+                    <td>${{pay.getRemaining()}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-center"><button class="btn btn-primary" ng-click="pay.addAllocation()">+ Add Allocation</button></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="text-center" ng-show="!pay.showPayTable">
+                <button class="btn btn-primary" ng-click="pay.setPayData()">Start Allocating</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" type="button" ng-click="pay.close()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="pay.logPaycheck()">Submit</button>
+</div>

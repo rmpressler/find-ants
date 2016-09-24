@@ -1,3 +1,15 @@
 .navbar {
     margin-bottom: 0;
 }
+
+.pay .pay-table {
+    margin-top: 15px;
+}
+
+.text-green {
+    color: green;
+}
+
+.text-red {
+    color: red;
+}

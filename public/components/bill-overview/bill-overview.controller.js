@@ -2,8 +2,8 @@
     angular.module('find-ants')
         .controller('BillOverviewController', BillOverviewController);
 
-    BillOverviewController.$inject = ['$uibModal', 'authenticator'];
-    function BillOverviewController($uibModal, authenticator) {
+    BillOverviewController.$inject = ['$uibModal', 'authenticator', 'userService'];
+    function BillOverviewController($uibModal, authenticator, userService) {
         var vm = this;
 
         vm.bills = [];
@@ -16,6 +16,10 @@
             vm.bills = angular.copy(vm.currentUser.bills);
 
             refreshBills();
+
+            userService.on('update', function(user) {
+                refreshController(user);
+            });
         }
 
         function refreshBills() {
@@ -42,11 +46,13 @@
                         return vm.currentUser;
                     }
                 }
-            }).result.then(function() {
-                vm.currentUser = authenticator.getCurrentUser();
-                vm.bills = angular.copy(vm.currentUser.bills);
-                refreshBills();
             });
+        }
+
+        function refreshController(user) {
+            vm.currentUser = user;
+            vm.bills = angular.copy(vm.currentUser.bills);
+            refreshBills();
         }
     }
 })();

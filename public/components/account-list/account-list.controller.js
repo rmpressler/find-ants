@@ -9,6 +9,7 @@
         vm.expenseAccounts = angular.copy(vm.currentUser.accounts);
 
         vm.logSpending = logSpending;
+        vm.getTotal = getTotal;
 
         init();
 
@@ -35,6 +36,12 @@
                     }
                 }
             });
+        }
+
+        function getTotal() {
+            return vm.expenseAccounts.reduce(function(previous, current) {
+                return previous + current.balance;
+            }, 0);
         }
 
         function refreshBalances() {

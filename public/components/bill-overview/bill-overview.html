@@ -9,15 +9,13 @@
             <th>Next Due</th>
             <th>Name</th>
             <th>Amount</th>
-            <th>Status</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="bill in billOverview.bills | orderBy:'date'">
             <td>{{bill.date | date:short}}</td>
             <td>{{bill.name}}</td>
-            <td>${{bill.amount}}</td>
-            <td>{{bill.allocated | asAllocated}}</td>
+            <td class="text-right">{{bill.amount | currency}}</td>
         </tr>
         </tbody>
     </table>

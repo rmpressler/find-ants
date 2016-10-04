@@ -67,6 +67,21 @@
             }
 
             var checkDayOfMonth = vm.check.date.getDate();
+            var checkMonth = vm.check.date.getMonth();
+            var checkYear = vm.check.date.getFullYear();
+            if (checkDayOfMonth >= 25) {
+                checkDayOfMonth = 1;
+                checkMonth++;
+                if (checkMonth > 11) {
+                    checkMonth = 0;
+                }
+            } else if (checkDayOfMonth <= 5) {
+                checkDayOfMonth = 1;
+            } else {
+                checkDayOfMonth = 15;
+            }
+
+            console.log(checkDayOfMonth);
 
             var bills = CurrentUser.bills;
             var billAccountId = CurrentUser.accounts.filter(function(account) {
@@ -76,13 +91,16 @@
             bills.forEach(function(bill) {
                 var nextDueDate;
                 if (bill.dayOfMonth <= checkDayOfMonth) {
-                    nextDueDate = new Date(vm.check.date.getFullYear(), vm.check.date.getMonth() + 1, bill.dayOfMonth);
+                    nextDueDate = new Date(checkYear, checkMonth + 1, bill.dayOfMonth);
                 } else {
-                    nextDueDate = new Date(vm.check.date.getFullYear(), vm.check.date.getMonth(), bill.dayOfMonth);
+                    nextDueDate = new Date(checkYear, checkMonth, bill.dayOfMonth);
                 }
 
-                if (nextDueDate.getTime() < nextPayDate.getTime()) {
-                    allocate(billAccountId, bill.name, bill.amount, true);
+                console.log(nextDueDate);
+                console.log(nextPayDate);
+
+                if (nextDueDate.getTime() <= nextPayDate.getTime()) {
+                    allocate(billAccountId, bill.name, bill.amount);
                 }
             });
 

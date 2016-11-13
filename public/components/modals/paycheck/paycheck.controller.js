@@ -45,9 +45,9 @@
             var month = fromDate.getMonth();
             var year = fromDate.getFullYear();
 
-            if (day > 10 && day < 20) {
+            if (day > 9 && day < 20) {
                 return new Date(year, month + 1, 1);
-            } else if (day > 25) {
+            } else if (day > 20) {
                 return new Date(year, month + 1, 15);
             } else if (day < 5) {
                 return new Date(year, month, 15);

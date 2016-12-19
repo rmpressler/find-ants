@@ -20,7 +20,6 @@
                 refreshController(user);
             });
         }
-        
 
         function logSpending(accountId) {
             $uibModal.open({

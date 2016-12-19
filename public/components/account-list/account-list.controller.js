@@ -2,8 +2,8 @@
     angular.module('find-ants')
         .controller('AccountListController', AccountListController);
 
-    AccountListController.$inject = ['$uibModal', 'accountService', 'authenticator', 'userService'];
-    function AccountListController($uibModal, accountService, authenticator, userService) {
+    AccountListController.$inject = ['$uibModal', 'accountService', 'userService'];
+    function AccountListController($uibModal, accountService, userService) {
         var vm = this;
 
         vm.expenseAccounts = angular.copy(vm.currentUser.accounts);

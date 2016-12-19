@@ -19,6 +19,7 @@
             userService.on('update', function(user) {
                 refreshController(user);
             });
+
         }
 
         function logSpending(accountId) {

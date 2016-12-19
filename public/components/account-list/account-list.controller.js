@@ -17,6 +17,7 @@
             refreshBalances();
 
             userService.on('update', function(user) {
+                
                 refreshController(user);
             });
         }

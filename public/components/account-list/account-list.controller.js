@@ -14,10 +14,9 @@
         init();
 
         function init() {
-            refreshBalances();
-
+            refreshBalances();  
             userService.on('update', function(user) {
-                
+
                 refreshController(user);
             });
         }

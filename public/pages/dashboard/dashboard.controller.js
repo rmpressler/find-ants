@@ -8,6 +8,7 @@
 
         // Expose injected user to the view
         vm.currentUser = CurrentUser;
+        console.log(vm.currentUser);
 
         vm.logPaycheck = logPaycheck;
 

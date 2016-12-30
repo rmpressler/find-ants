@@ -6,6 +6,8 @@
     function AccountListController($uibModal, accountService, userService) {
         var vm = this;
 
+        console.log(vm.currentUser);
+
         vm.expenseAccounts = angular.copy(vm.currentUser.accounts);
 
         vm.logSpending = logSpending;

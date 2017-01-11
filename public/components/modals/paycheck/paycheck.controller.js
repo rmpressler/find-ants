@@ -2,8 +2,8 @@
     angular.module('find-ants')
         .controller('PaycheckController', PaycheckController);
 
-    PaycheckController.$inject = ['$uibModalInstance', 'CurrentUser', 'userService'];
-    function PaycheckController($uibModalInstance, CurrentUser, userService) {
+    PaycheckController.$inject = ['$uibModalInstance', 'CurrentUser', 'userService', '$filter'];
+    function PaycheckController($uibModalInstance, CurrentUser, userService, $filter) {
         var vm = this;
 
         vm.check = {};
@@ -83,7 +83,7 @@
 
             console.log(checkDayOfMonth);
 
-            var bills = CurrentUser.bills;
+            var bills = $filter('orderBy')(CurrentUser.bills, 'dayOfMonth');
             var billAccountId = CurrentUser.accounts.filter(function(account) {
                 return account.name === 'Bill Expense';
             })[0]._id;

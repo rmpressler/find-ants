@@ -2,23 +2,28 @@
     angular.module('find-ants')
         .factory('authenticator', Authenticator);
 
-    Authenticator.$inject = ['userService'];
-    function Authenticator(userService) {
+    Authenticator.$inject = ['server', 'userService'];
+    function Authenticator(server, userService) {
         return {
             login: login,
-            getCurrentUser: getCurrentUser
+            getLoginState: getLoginState
         };
 
-        function login(username) {
-            return userService.getBy('username', username)
-                .then(function(user) {
-                    window.localStorage.setItem('user', JSON.stringify(user));
+        function login(loginInfo) {
+            // Log in with the server
+            return server.request('post', '/authenticate', loginInfo)
+                .then(data => {
+                    user = data.user;
+                    userService.saveUser(user);
                     return user;
                 });
         }
 
-        function getCurrentUser() {
-            return JSON.parse(window.localStorage.getItem('user'));
+        function getLoginState() {
+            return server.request('get', '/authenticate')
+                .then(data => {
+                    return data.isLoggedIn;
+                });
         }
     }
 })();

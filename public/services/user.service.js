@@ -2,40 +2,49 @@
     angular.module('find-ants')
         .service('userService', UserService);
 
-    UserService.$inject = ['dataService'];
-    function UserService(dataService) {
-        var service = this;
+    UserService.$inject = ['dataService', '$q', 'server'];
+    function UserService(dataService, $q, server) {
+        let service = this;
 
-        var callbacks = {};
+        let callbacks = {};
+        let user;
 
         service.create = create;
-        service.getBy = getBy;
-        service.update = update;
         service.on = on;
+
+        // New API
+        service.saveUser = saveUser;
+        service.getUser = getUser;
+        service.update = update;
+
+        function getUser() {
+            if (user) {
+                return $q.resolve(user);
+            }
+
+            return server.request('get', '/current-user')
+                .then(data => {
+                    if (data.error) {
+                        return $q.reject(data);
+                    }
+
+                    user = data.user;
+                    return data.user;
+                });
+        }
 
         function create(user) {
             return dataService.create('users', user)
         }
 
-        function getBy(property, value) {
-            var query = {};
-
-            query[property] = value;
-
-            return dataService.read('users', query)
-                .then(function (users) {
-                    return users[0];
-                });
-        }
-
         function update(updateObj) {
-            return dataService.update('users', updateObj)
-                .then(function(user) {
-                    window.localStorage.setItem('user', JSON.stringify(user));
+            return server.request('put', '/api/users', updateObj)
+                .then(updatedUser => {
+                    user = updatedUser;
                     if (callbacks['update']) {
                         callbacks['update'].forEach(function(callback) {
                             if (callback) {
-                                callback(user);
+                                callback(updatedUser);
                             }
                         });
                     }
@@ -49,6 +58,10 @@
             } else {
                 callbacks[event].push(callback);
             }
+        }
+
+        function saveUser(newUser) {
+            user = newUser;
         }
     }
 })();

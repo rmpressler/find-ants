@@ -11,8 +11,7 @@ db.once('open', function() {
 var BillSchema = mongoose.Schema({
     name:           String,
     dayOfMonth:     Number,
-    amount:         Number,
-    allocated:      Boolean
+    amount:         Number
 });
 
 var TransactionSchema = mongoose.Schema({
@@ -54,7 +53,7 @@ var Users = mongoose.model('Users', UserSchema);
 
     function read(req, res) {
         var table = req.params.table;
-        var query = req.query.query;
+        var query = JSON.parse(req.query.query);
 
         tableToSchema[table].find(query, getResponseHandler(res));
     }

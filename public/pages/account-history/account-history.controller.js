@@ -2,19 +2,27 @@
     angular.module('find-ants')
         .controller('AccountHistoryController', AccountHistoryController);
 
-    AccountHistoryController.$inject = ['authenticator', '$stateParams'];
-    function AccountHistoryController(authenticator, $stateParams) {
-        var vm = this;
+    AccountHistoryController.$inject = ['userService', '$stateParams'];
+    function AccountHistoryController(userService, $stateParams) {
+        let vm = this;
+        let currentUser;
 
-        var currentUser = authenticator.getCurrentUser();
+        ngOnInit();
 
-        vm.transactions = currentUser.accounts.filter(function(account) {
-            return account._id === $stateParams.accountId;
-        })[0].transactions;
+        function ngOnInit() {
+            userService
+                .getUser()
+                .then(user => {
+                    currentUser = user;
+                    vm.transactions = currentUser.accounts.filter(function(account) {
+                        return account._id === $stateParams.accountId;
+                    })[0].transactions;
 
-        vm.balances = [];
+                    vm.balances = [];
 
-        refreshBalances();
+                    refreshBalances();
+                });
+        }
 
         function refreshBalances() {
             var i,

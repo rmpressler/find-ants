@@ -2,17 +2,26 @@
     angular.module('find-ants')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$state', 'authenticator'];
-    function HomeController($state, authenticator) {
+    HomeController.$inject = ['$state', 'authenticator', '$http'];
+    function HomeController($state, authenticator, $http) {
         var vm = this;
 
         vm.login = login;
 
-        function login(username) {
-            return authenticator.login('username', username)
-                .then(function() {
-                    $state.go('dashboard');
-                });
+        ngOnInit();
+
+        function ngOnInit() {
+            vm.loginInfo = {};
+        }
+
+        function login(loginInfo) {
+            if (!loginInfo.username || !loginInfo.password) {
+                return vm.error = 'Must provide both username and password';
+            }
+
+            return authenticator.login(loginInfo)
+                .then(user => $state.go('dashboard'))
+                .catch(error => vm.error = error);
         }
     }
 })();

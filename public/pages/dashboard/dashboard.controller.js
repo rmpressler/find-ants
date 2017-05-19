@@ -2,21 +2,35 @@
     angular.module('find-ants')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['CurrentUser', '$uibModal', 'authenticator', 'userService'];
-    function DashboardController(CurrentUser, $uibModal, authenticator, userService) {
+    DashboardController.$inject = ['$uibModal', 'userService', '$filter'];
+    function DashboardController($uibModal, userService, $filter) {
         var vm = this;
-
-        // Expose injected user to the view
-        vm.currentUser = CurrentUser;
 
         vm.logPaycheck = logPaycheck;
 
         init();
 
         function init() {
-            userService.on('update', function(user) {
-                vm.currentUser = user;
+            // Expose injected user to the view
+            userService.getUser()
+                .then(user => {
+                    vm.currentUser = user;
+                });
+        }
+
+        function updateLastTen() {
+            var allTransactions = [];
+
+            vm.currentUser.accounts.forEach(function (account) {
+                var transactions = account.transactions.map(function (transaction) {
+                    transaction.account = account;
+                    return transaction;
+                });
+                allTransactions = allTransactions.concat(transactions);
             });
+
+            var ordered = $filter('orderBy')(allTransactions, '-date');
+            vm.lastTen = ordered.slice(0, 10);
         }
 
         function logPaycheck() {

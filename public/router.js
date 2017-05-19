@@ -16,10 +16,7 @@
             url: '/dashboard',
             templateUrl: '/pages/dashboard/dashboard.html',
             controller: 'DashboardController',
-            controllerAs: 'dash',
-            resolve: {
-                CurrentUser: authenticationResolve
-            }
+            controllerAs: 'dash'
         };
 
         var accountHistoryState = {
@@ -33,9 +30,5 @@
         $stateProvider.state(homeState);
         $stateProvider.state(dashboardState);
         $stateProvider.state(accountHistoryState);
-
-        function authenticationResolve(authenticator) {
-            return authenticator.getCurrentUser();
-        }
     }
 })();

@@ -8,6 +8,10 @@ const router        = express.Router();
 
 router.post('/', (req, res, next) => {
   const loginInfo = req.body;
+  let host = req.hostname;
+  if (host.indexOf('localhost') !== -1) {
+    host += ':' + process.env.PORT;
+  }
 
   if (!loginInfo.username || !loginInfo.password) {
     return res.json({error: 'Username and password are required'});
@@ -15,7 +19,7 @@ router.post('/', (req, res, next) => {
 
   request.get({
     method: 'GET',
-    url: `http://localhost:3000/api/users?query=${JSON.stringify(loginInfo)}`,
+    url: `http://${host}/api/users?query=${JSON.stringify(loginInfo)}`,
     json: true
   }, (error, response, users) => {
     if (error || users.length === 0) {

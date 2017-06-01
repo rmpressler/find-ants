@@ -7,6 +7,7 @@ const bodyParser        = require('body-parser');
 const routes            = require('./routes');
 const api               = require('./routes/api');
 const authenticate      = require('./routes/authenticate');
+const user              = require('./routes/user');
 
 const app = express();
 let appBase = __dirname + '/public/';
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 app.use(express.static(appBase));
 
 app.use('/authenticate', authenticate);
+app.use('/user', user)
 
 app.get('/api/:table', api.read);
 app.post('/api/:table', api.create);

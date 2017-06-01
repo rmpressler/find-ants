@@ -35,4 +35,8 @@ router.post('/', (req, res, next) => {
   })
 });
 
+router.get('/', (req, res, next) => {
+  return res.json({isLoggedIn: !!req.session.user});
+});
+
 module.exports = router;

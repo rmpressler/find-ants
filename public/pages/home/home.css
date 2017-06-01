@@ -1,0 +1,49 @@
+.home {
+  height: 100%;
+}
+
+.home .hero {
+  background-image: url(/img/home-bg.jpeg);
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  margin-top: -52px;
+}
+
+.home .hero .main-message {
+  margin-top: 10%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-weight: 100;
+  font-size: 2.2em;
+  text-shadow: 2px 2px black;
+}
+
+.home .hero .secondary-message {
+  margin-top: 2%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-weight: 100;
+  font-size: 1.5em;
+  text-shadow: 2px 2px black;
+}
+
+.home .login-container,
+.home .register-container {
+  margin-top: 2%;
+  background-color: rgba(191, 191, 191, 0.5);
+  padding-bottom: 5px;
+  border-radius: 5px;
+}
+
+.home .login-container>div,
+.home .register-container>div {
+  margin-bottom: 10px;
+}
+
+.home .btn {
+  background-color: rgb(0, 179, 89);
+  border-color: rgb(0, 179, 89);
+}

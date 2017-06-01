@@ -12,7 +12,7 @@
           return $http[type](url, data)
             .then(response => {
               if (response.data.error) {
-                return $q.reject(response.data.error);
+                return $q.reject({error: response.data.error});
               }
               return response.data;
             });

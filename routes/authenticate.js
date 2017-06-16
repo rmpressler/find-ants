@@ -26,6 +26,7 @@ router.post('/', (req, res, next) => {
       if (error) {
         console.log(error);
       }
+      
       return res.json({error: error ? 'Server error' : 'Invalid login credentials'});
     }
 
@@ -33,6 +34,16 @@ router.post('/', (req, res, next) => {
 
     res.json({user: req.session.user});
   })
+});
+
+router.get('/', (req, res, next) => {
+  return res.json({isLoggedIn: !!req.session.user});
+});
+
+router.get('/logout', (req, res, next) => {
+  req.session.user = null;
+
+  return res.json({});
 });
 
 module.exports = router;

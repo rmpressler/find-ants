@@ -13,7 +13,7 @@
         init();
 
         function init() {
-            vm.bills = angular.copy(vm.currentUser.bills);
+            vm.bills = angular.copy(vm.currentUser.bills || []);
 
             refreshBills();
 
@@ -23,15 +23,13 @@
         }
 
         function refreshBills() {
-            vm.bills = vm.bills.map(getDates);
-
-            function getDates(bill) {
+            vm.bills = vm.bills.map(bill => {
                 var today = new Date();
 
                 bill.date = new Date(today.getFullYear(), today.getMonth(), bill.dayOfMonth);
 
                 return bill;
-            }
+            });
         }
 
         function manageBills() {
@@ -42,16 +40,30 @@
                 controllerAs: 'manage',
                 bindToController: true,
                 resolve: {
-                    currentUser: function() {
-                        return vm.currentUser;
+                    currentBills: function() {
+                        return vm.currentUser.bills;
                     }
                 }
-            });
+            })
+                .result
+                .then(newBills => {
+                    vm.currentUser.bills = newBills;
+
+                    var update = {
+                        _id: vm.currentUser._id,
+                        bills: vm.currentUser.bills
+                    };
+
+                    userService.update(update)
+                        .catch(function(err) {
+                            console.log(err);
+                        });
+                });
         }
 
         function refreshController(user) {
             vm.currentUser = user;
-            vm.bills = angular.copy(vm.currentUser.bills);
+            vm.bills = angular.copy(vm.currentUser.bills || []);
             refreshBills();
         }
     }

@@ -9,42 +9,50 @@
         let callbacks = {};
         let user;
 
-        service.create = create;
         service.on = on;
 
         // New API
         service.saveUser = saveUser;
         service.getUser = getUser;
         service.update = update;
+        service.register = register;
 
         function getUser() {
             if (user) {
                 return $q.resolve(user);
             }
 
-            return server.request('get', '/current-user')
-                .then(data => {
-                    if (data.error) {
-                        return $q.reject(data);
-                    }
+            return server.request('get', '/user')
+                .then(data => data.user);
+        }
 
+        function register(username, password) {
+            if (!username || !password) {
+                return $q.reject('Username and password are required');
+            }
+
+            const newUser = {
+                username,
+                password,
+                accounts: [],
+                bills: []
+            };
+
+            return server.request('post', '/user', newUser)
+                .then(data => {
                     user = data.user;
-                    return data.user;
+                    return user;
                 });
         }
 
-        function create(user) {
-            return dataService.create('users', user)
-        }
-
         function update(updateObj) {
-            return server.request('put', '/api/users', updateObj)
-                .then(updatedUser => {
-                    user = updatedUser;
+            return server.request('put', '/user', updateObj)
+                .then(data => {
+                    user = data.user;
                     if (callbacks['update']) {
                         callbacks['update'].forEach(function(callback) {
                             if (callback) {
-                                callback(updatedUser);
+                                callback(user);
                             }
                         });
                     }

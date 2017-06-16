@@ -1,5 +1,23 @@
+html {
+    padding-top:0;
+    height: 100%;
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+}
+
 .navbar {
     margin-bottom: 0;
+    background-color: rgba(0, 179, 89, 0.5);
+    border: none;
+    border-radius: 0;
+}
+
+.navbar .navbar-header .navbar-brand {
+    color: white;
+    font-weight: 100;
+    font-size: 26px;
 }
 
 .pay .pay-table {

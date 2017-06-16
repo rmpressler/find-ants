@@ -2,11 +2,11 @@
     angular.module('find-ants')
         .controller('ManageBillsController', ManageBillsController);
 
-    ManageBillsController.$inject = ['currentUser', '$uibModalInstance', 'userService'];
-    function ManageBillsController(currentUser, $uibModalInstance, userService) {
+    ManageBillsController.$inject = ['currentBills', '$uibModalInstance', 'userService'];
+    function ManageBillsController(currentBills, $uibModalInstance, userService) {
         var vm = this;
 
-        vm.bills = angular.copy(currentUser.bills);
+        vm.bills = angular.copy(currentBills);
 
         vm.close = close;
         vm.addBill = addBill;
@@ -14,7 +14,7 @@
         vm.saveBills = saveBills;
 
         function close() {
-            $uibModalInstance.close();
+            $uibModalInstance.dismiss();
         }
 
         function addBill() {
@@ -31,19 +31,7 @@
         }
 
         function saveBills() {
-            var update = {
-                _id: currentUser._id,
-                bills: vm.bills
-            };
-
-            userService.update(update)
-                .then(function (updatedUser) {
-                    currentUser = updatedUser;
-                    close();
-                })
-                .catch(function(err) {
-                    console.log(err);
-                });
+            $uibModalInstance.close(vm.bills);
         }
     }
 })();

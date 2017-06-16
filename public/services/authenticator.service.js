@@ -1,13 +1,15 @@
 (function() {
     angular.module('find-ants')
-        .factory('authenticator', Authenticator);
+        .service('authenticator', Authenticator);
 
     Authenticator.$inject = ['server', 'userService'];
     function Authenticator(server, userService) {
-        return {
-            login: login,
-            getLoginState: getLoginState
-        };
+        let listeners = {};
+
+        this.login = login;
+        this.logout = logout;
+        this.getLoginState = getLoginState;
+        this.on = on;
 
         function login(loginInfo) {
             // Log in with the server
@@ -15,8 +17,14 @@
                 .then(data => {
                     user = data.user;
                     userService.saveUser(user);
+                    emit('login');
                     return user;
                 });
+        }
+
+        function logout() {
+            return server.request('get', '/authenticate/logout')
+                .then(() => emit('logout'));
         }
 
         function getLoginState() {
@@ -24,6 +32,18 @@
                 .then(data => {
                     return data.isLoggedIn;
                 });
+        }
+
+        function on(event, cb) {
+            if (!listeners[event]) {
+                listeners[event] = [];
+            }
+
+            listeners[event].push(cb);
+        }
+
+        function emit(event) {
+            listeners[event].forEach(listener => listener());
         }
     }
 })();

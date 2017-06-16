@@ -16,7 +16,7 @@ router.get('/', (req, res, next) => {
 router.put('/', (req, res, next) => {
   request({
     method: 'PUT',
-    url: `http://localhost:3000/api/users`,
+    url: `http://localhost:${(process.env.PORT || 3000)}/api/users`,
     json: true,
     body: req.body
   }, (error, response, user) => {

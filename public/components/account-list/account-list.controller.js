@@ -2,14 +2,15 @@
     angular.module('find-ants')
         .controller('AccountListController', AccountListController);
 
-    AccountListController.$inject = ['$uibModal', 'accountService', 'userService'];
-    function AccountListController($uibModal, accountService, userService) {
+    AccountListController.$inject = ['$uibModal', 'accountService', 'userService', 'addAccountModal'];
+    function AccountListController($uibModal, accountService, userService, addAccountModal) {
         var vm = this;
 
         vm.expenseAccounts = angular.copy(vm.currentUser.accounts);
 
         vm.logSpending = logSpending;
         vm.getTotal = getTotal;
+        vm.addAccount = addAccount;
 
         init();
 
@@ -39,13 +40,13 @@
         }
 
         function getTotal() {
-            return vm.expenseAccounts.reduce(function(previous, current) {
+            return vm.expenseAccounts ? vm.expenseAccounts.reduce(function(previous, current) {
                 return previous + current.balance;
-            }, 0);
+            }, 0) : 0;
         }
 
         function refreshBalances() {
-            vm.expenseAccounts.forEach(function (account) {
+            vm.expenseAccounts && vm.expenseAccounts.forEach(function (account) {
                 account.balance = accountService.getAccountBalance(account);
             });
         }
@@ -54,6 +55,18 @@
             vm.currentUser = user;
             vm.expenseAccounts = angular.copy(vm.currentUser.accounts);
             refreshBalances();
+        }
+
+        function addAccount() {
+            addAccountModal
+                .open()
+                .then(newAccount => {
+                    vm.currentUser.accounts.push(newAccount);
+                    userService.update({
+                        _id: vm.currentUser._id,
+                        accounts: vm.currentUser.accounts
+                    });
+                });
         }
     }
 })();

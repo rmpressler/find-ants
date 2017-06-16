@@ -19,18 +19,19 @@
         }
 
         function updateLastTen() {
-            var allTransactions = [];
+            // Reimplement later
+            // var allTransactions = [];
 
-            vm.currentUser.accounts.forEach(function (account) {
-                var transactions = account.transactions.map(function (transaction) {
-                    transaction.account = account;
-                    return transaction;
-                });
-                allTransactions = allTransactions.concat(transactions);
-            });
+            // vm.currentUser.accounts.forEach(function (account) {
+            //     var transactions = account.transactions.map(function (transaction) {
+            //         transaction.account = account;
+            //         return transaction;
+            //     });
+            //     allTransactions = allTransactions.concat(transactions);
+            // });
 
-            var ordered = $filter('orderBy')(allTransactions, '-date');
-            vm.lastTen = ordered.slice(0, 10);
+            // var ordered = $filter('orderBy')(allTransactions, '-date');
+            // vm.lastTen = ordered.slice(0, 10);
         }
 
         function logPaycheck() {

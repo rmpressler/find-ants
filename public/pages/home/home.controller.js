@@ -13,7 +13,14 @@
 
         function ngOnInit() {
             vm.loginInfo = {};
-            vm.newUser = {};
+            vm.newUser = {
+                accounts: [
+                    {
+                        "name" : "Bill Expense",
+                        "transactions" : [ ]
+                    }
+                ]
+            };
 
             authenticator.getLoginState()
                 .then(isLoggedIn => isLoggedIn ? $state.go('dashboard') : false);

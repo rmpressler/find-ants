@@ -2,11 +2,10 @@
     angular.module('find-ants')
         .controller('LogSpendingController', LogSpendingController);
 
-    LogSpendingController.$inject = ['$uibModalInstance', 'userService', 'currentUser', 'accountId'];
-    function LogSpendingController($uibModalInstance, userService, currentUser, accountId) {
+    LogSpendingController.$inject = ['$uibModalInstance', 'accounts'];
+    function LogSpendingController($uibModalInstance, accounts) {
         var vm = this;
 
-        vm.accounts = currentUser.accounts;
         vm.loggedItems = [];
 
         vm.close = close;
@@ -36,21 +35,7 @@
                 entry.amount = 0 - entry.amount;
             });
 
-            var userUpdate = {
-                _id: currentUser._id,
-                accounts: currentUser.accounts
-            };
-
-            userUpdate.accounts.forEach(function(account) {
-                if (account._id === accountId) {
-                    account.transactions = account.transactions.concat(newEntries);
-                }
-            });
-
-            userService.update(userUpdate)
-                .then(function() {
-                    $uibModalInstance.close();
-                });
+            $uibModalInstance.close(newEntries);
         }
 
         function pushNewRow() {

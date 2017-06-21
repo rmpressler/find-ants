@@ -23,7 +23,7 @@
             }
 
             return server.request('get', '/user')
-                .then(data => data.user);
+                .then(data => user = data.user);
         }
 
         function register(username, password) {

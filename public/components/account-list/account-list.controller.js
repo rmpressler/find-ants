@@ -6,7 +6,7 @@
     function AccountListController($uibModal, accountService, userService, addAccountModal) {
         var vm = this;
 
-        vm.expenseAccounts = angular.copy(vm.currentUser.accounts);
+        let currentUser;
 
         vm.logSpending = logSpending;
         vm.getTotal = getTotal;
@@ -15,28 +15,32 @@
         init();
 
         function init() {
-            refreshBalances();
-
-            userService.on('update', function(user) {
-                refreshController(user);
-            });
+            getUser();
+            userService.on('update', getUser);
         }
 
-        function logSpending(accountId) {
+        function getUser() {
+            userService
+                .getUser()
+                .then(user => currentUser = user)
+                .then(refreshBalances);
+        }
+
+        function logSpending(account) {
             $uibModal.open({
                 templateUrl: '/components/modals/log-spending/log-spending.html',
                 controller: 'LogSpendingController',
-                controllerAs: 'spend',
-                bindToController: true,
-                resolve: {
-                    currentUser: function() {
-                        return vm.currentUser;
-                    },
-                    accountId: function() {
-                        return accountId;
-                    }
-                }
-            });
+                controllerAs: 'spend'
+            })
+                .result.then(newSpending => {
+                    account.transactions = account.transactions.concat(newSpending);
+                    userService
+                        .update({
+                            _id: currentUser._id,
+                            accounts: currentUser.accounts
+                        })
+                        .then(refreshBalances);
+                });
         }
 
         function getTotal() {
@@ -46,27 +50,23 @@
         }
 
         function refreshBalances() {
+            vm.expenseAccounts = currentUser.accounts;
             vm.expenseAccounts && vm.expenseAccounts.forEach(function (account) {
                 account.balance = accountService.getAccountBalance(account);
             });
-        }
-
-        function refreshController(user) {
-            vm.currentUser = user;
-            vm.expenseAccounts = angular.copy(vm.currentUser.accounts);
-            refreshBalances();
         }
 
         function addAccount() {
             addAccountModal
                 .open()
                 .then(newAccount => {
-                    vm.currentUser.accounts.push(newAccount);
+                    currentUser.accounts.push(newAccount);
                     userService.update({
-                        _id: vm.currentUser._id,
-                        accounts: vm.currentUser.accounts
+                        _id: currentUser._id,
+                        accounts: currentUser.accounts
                     });
-                });
+                })
+                .then(refreshBalances);
         }
     }
 })();

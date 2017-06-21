@@ -5,13 +5,10 @@
     function BillOverview() {
         return {
             restrict: 'E',
-            scope: {
-                currentUser: '='
-            },
+            scope: {},
             templateUrl: '/components/bill-overview/bill-overview.html',
             controller: 'BillOverviewController',
-            controllerAs: 'billOverview',
-            bindToController: true
+            controllerAs: 'billOverview'
         }
     }
 })();

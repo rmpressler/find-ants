@@ -5,13 +5,10 @@
     function AccountList() {
         return {
             restrict: 'E',
-            scope: {
-                currentUser: '='
-            },
+            scope: {},
             templateUrl: '/components/account-list/account-list.html',
             controller: 'AccountListController',
-            controllerAs: 'accList',
-            bindToController: true
+            controllerAs: 'accList'
         };
     }
 })();

@@ -6,6 +6,8 @@
     function BillOverviewController($uibModal, authenticator, userService) {
         var vm = this;
 
+        let currentUser;
+
         vm.bills = [];
 
         vm.manageBills = manageBills;
@@ -13,13 +15,11 @@
         init();
 
         function init() {
-            vm.bills = angular.copy(vm.currentUser.bills || []);
-
-            refreshBills();
-
-            userService.on('update', function(user) {
-                refreshController(user);
-            });
+            userService
+                .getUser()
+                .then(user => currentUser = user)
+                .then(user => vm.bills = user.bills)
+                .then(refreshBills);
         }
 
         function refreshBills() {
@@ -41,30 +41,27 @@
                 bindToController: true,
                 resolve: {
                     currentBills: function() {
-                        return vm.currentUser.bills;
+                        return vm.bills;
                     }
                 }
             })
                 .result
                 .then(newBills => {
-                    vm.currentUser.bills = newBills;
+                    currentUser.bills = newBills;
+                    vm.bills = newBills;
 
                     var update = {
-                        _id: vm.currentUser._id,
-                        bills: vm.currentUser.bills
+                        _id: currentUser._id,
+                        bills: currentUser.bills
                     };
+
+                    refreshBills();
 
                     userService.update(update)
                         .catch(function(err) {
                             console.log(err);
                         });
                 });
-        }
-
-        function refreshController(user) {
-            vm.currentUser = user;
-            vm.bills = angular.copy(vm.currentUser.bills || []);
-            refreshBills();
         }
     }
 })();

@@ -29,10 +29,11 @@ var UserSchema = mongoose.Schema({
     username:       String,
     password:       String,
     bills:          [BillSchema],
-    accounts:       [AccountSchema]
+    accounts:       [mongoose.Schema.ObjectId]
 });
 
 var Users = mongoose.model('Users', UserSchema);
+var Accounts = mongoose.model('Accounts', AccountSchema);
 
 (function(exports) {
     exports.create = create;
@@ -40,7 +41,8 @@ var Users = mongoose.model('Users', UserSchema);
     exports.update = update;
 
     var tableToSchema = {
-        users: Users
+        users: Users,
+        accounts: Accounts
     };
 
     function create(req, res) {

@@ -33,7 +33,7 @@ router.post('/', (req, res, next) => {
     req.session.user = users[0];
 
     res.json({user: req.session.user});
-  })
+  });
 });
 
 router.get('/', (req, res, next) => {

@@ -2,8 +2,8 @@
     angular.module('find-ants')
         .controller('LogSpendingController', LogSpendingController);
 
-    LogSpendingController.$inject = ['$uibModalInstance', 'accounts'];
-    function LogSpendingController($uibModalInstance, accounts) {
+    LogSpendingController.$inject = ['$uibModalInstance'];
+    function LogSpendingController($uibModalInstance) {
         var vm = this;
 
         vm.loggedItems = [];

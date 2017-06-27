@@ -16,6 +16,7 @@
         service.getUser = getUser;
         service.update = update;
         service.register = register;
+        service.addAccount = addAccount;
 
         function getUser() {
             if (user) {
@@ -70,6 +71,14 @@
 
         function saveUser(newUser) {
             user = newUser;
+        }
+
+        function addAccount(newAccount) {
+            user.accounts.push(newAccount);
+            return update({
+                _id: user._id,
+                accounts: user.accounts
+            });
         }
     }
 })();

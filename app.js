@@ -8,6 +8,7 @@ const routes            = require('./routes');
 const api               = require('./routes/api');
 const authenticate      = require('./routes/authenticate');
 const user              = require('./routes/user');
+const accounts          = require('./routes/accounts');
 
 const app = express();
 let appBase = __dirname + '/public/';
@@ -31,7 +32,8 @@ app.use(bodyParser.json());
 app.use(express.static(appBase));
 
 app.use('/authenticate', authenticate);
-app.use('/user', user)
+app.use('/user', user);
+app.use('/accounts', accounts);
 
 app.get('/api/:table', api.read);
 app.post('/api/:table', api.create);

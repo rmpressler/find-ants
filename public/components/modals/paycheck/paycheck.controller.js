@@ -2,8 +2,10 @@
     angular.module('find-ants')
         .controller('PaycheckController', PaycheckController);
 
-    PaycheckController.$inject = ['$uibModalInstance', 'CurrentUser', 'userService', '$filter'];
-    function PaycheckController($uibModalInstance, CurrentUser, userService, $filter) {
+    PaycheckController.$inject = ['$uibModalInstance', 'userService', '$filter', 'accountService',
+        'CurrentUser', '$q'];
+    function PaycheckController($uibModalInstance, userService, $filter, accountService,
+        CurrentUser, $q) {
         var vm = this;
 
         vm.check = {};
@@ -24,7 +26,8 @@
             vm.check.date = new Date();
             vm.check.amount = 0;
 
-            vm.accounts = CurrentUser.accounts;
+            accountService.getAccounts()
+                .then(accounts => vm.accounts = accounts);
         }
 
         function close() {
@@ -81,11 +84,9 @@
                 checkDayOfMonth = 15;
             }
 
-            console.log(checkDayOfMonth);
-
             var bills = $filter('orderBy')(CurrentUser.bills, 'dayOfMonth');
-            var billAccountId = CurrentUser.accounts.filter(function(account) {
-                return account.name === 'Bill Expense';
+            var billAccountId = vm.accounts.filter(function(account) {
+                return account.name.indexOf('Bill Expense') !== -1;
             })[0]._id;
 
             bills.forEach(function(bill) {
@@ -95,9 +96,6 @@
                 } else {
                     nextDueDate = new Date(checkYear, checkMonth, bill.dayOfMonth);
                 }
-
-                console.log(nextDueDate);
-                console.log(nextPayDate);
 
                 if (nextDueDate.getTime() <= nextPayDate.getTime()) {
                     allocate(billAccountId, bill.name, bill.amount);
@@ -131,23 +129,26 @@
         }
 
         function logPaycheck() {
+            let updates = [];
             vm.allocations.forEach(function(alloc) {
                 logTransaction(alloc.account, alloc.description, alloc.amount);
             });
 
-            var updateObj = {
-                _id: CurrentUser._id,
-                accounts: CurrentUser.accounts
-            };
+            vm.accounts.forEach(account => {
+                updates.push(accountService.update({
+                    _id: account._id,
+                    transactions: account.transactions
+                }));
+            });
 
-            userService.update(updateObj)
-                .then(function() {
-                    close();
-                });
+            $q
+                .all(updates)
+                .then(accountService.notify)
+                .then(close);
         }
 
         function logTransaction(accountId, description, amount) {
-            CurrentUser.accounts.forEach(function(account) {
+            vm.accounts.forEach(function(account) {
                 if (account._id === accountId) {
                     account.transactions.push({
                         date: vm.check.date,

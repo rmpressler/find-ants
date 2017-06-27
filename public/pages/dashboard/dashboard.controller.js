@@ -42,9 +42,7 @@
                 controllerAs: 'pay',
                 bindToController: true,
                 resolve: {
-                    CurrentUser: function() {
-                        return vm.currentUser;
-                    }
+                    CurrentUser: () => vm.currentUser
                 }
             });
         }

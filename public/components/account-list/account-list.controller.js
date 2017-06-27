@@ -6,8 +6,6 @@
     function AccountListController($uibModal, accountService, userService, addAccountModal) {
         var vm = this;
 
-        let currentUser;
-
         vm.logSpending = logSpending;
         vm.getTotal = getTotal;
         vm.addAccount = addAccount;
@@ -15,14 +13,14 @@
         init();
 
         function init() {
-            getUser();
-            userService.on('update', getUser);
+            getAccounts();
+            accountService.subscribe(getAccounts);
         }
 
-        function getUser() {
-            userService
-                .getUser()
-                .then(user => currentUser = user)
+        function getAccounts() {
+            accountService
+                .getAccounts()
+                .then(accounts => vm.expenseAccounts = accounts)
                 .then(refreshBalances);
         }
 
@@ -34,10 +32,10 @@
             })
                 .result.then(newSpending => {
                     account.transactions = account.transactions.concat(newSpending);
-                    userService
+                    accountService
                         .update({
-                            _id: currentUser._id,
-                            accounts: currentUser.accounts
+                            _id: account._id,
+                            transactions: account.transactions
                         })
                         .then(refreshBalances);
                 });
@@ -50,7 +48,6 @@
         }
 
         function refreshBalances() {
-            vm.expenseAccounts = currentUser.accounts;
             vm.expenseAccounts && vm.expenseAccounts.forEach(function (account) {
                 account.balance = accountService.getAccountBalance(account);
             });
@@ -59,13 +56,12 @@
         function addAccount() {
             addAccountModal
                 .open()
+                .then(accountService.create)
                 .then(newAccount => {
-                    currentUser.accounts.push(newAccount);
-                    userService.update({
-                        _id: currentUser._id,
-                        accounts: currentUser.accounts
-                    });
+                    vm.expenseAccounts.push(newAccount);
+                    return newAccount._id;
                 })
+                .then(userService.addAccount)
                 .then(refreshBalances);
         }
     }

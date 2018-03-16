@@ -43,7 +43,7 @@
         }
 
         function emit(event) {
-            listeners[event].forEach(listener => listener());
+            listeners[event] && listeners[event].forEach(listener => listener());
         }
     }
 })();

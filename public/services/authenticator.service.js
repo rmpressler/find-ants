@@ -15,7 +15,7 @@
             // Log in with the server
             return server.request('post', '/authenticate', loginInfo)
                 .then(data => {
-                    user = data.user;
+                    const user = data.user;
                     userService.saveUser(user);
                     emit('login');
                     return user;

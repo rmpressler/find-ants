@@ -21,8 +21,7 @@ describe('server service', function () {
         beforeEach(function () {
             testRoute = '/test';
             testData = {testData: 'this'};
-            responseData = { data: { response: true } };
-            expectedResponse = responseData.data;
+            responseData = { response: true };
 
             $httpBackend.when('GET', '/test').respond(responseData);
             $httpBackend.when('PUT', '/test').respond(responseData);
@@ -32,26 +31,25 @@ describe('server service', function () {
 
         it('should execute get request with data', function () {
             server.request('get', testRoute)
-                .then(response => expect(response).toEqual(expectedResponse));
-            $rootScope.$apply();
+                .then(response => expect(response).toEqual(responseData));
             $httpBackend.expect('GET', testRoute);
         });
 
         it('should execute post request', function () {
             server.request('post', testRoute, testData)
-                .then(response => expect(response).toEqual(expectedResponse));
+                .then(response => expect(response).toEqual(responseData));
             $httpBackend.expect('POST', testRoute, testData);
         });
 
         it('should execute put request', function () {
             server.request('put', testRoute, testData)
-                .then(response => expect(response).toEqual(expectedResponse));
+                .then(response => expect(response).toEqual(responseData));
             $httpBackend.expect('PUT', testRoute, testData);
         });
 
         it('should execute delete request', function () {
             server.request('delete', testRoute)
-                .then(response => expect(response).toEqual(expectedResponse));
+                .then(response => expect(response).toEqual(responseData));
             $httpBackend.expect('DELETE', testRoute);
         });
     });
@@ -59,13 +57,12 @@ describe('server service', function () {
     describe('when executing bad request', function () {
         let error = 'BAD REQUEST';
         beforeEach(function () {
-            $httpBackend.when('GET', '/test').respond({ data: { error: error } });
+            $httpBackend.when('GET', '/test').respond({ error: error });
         });
 
         it('should execute delete request', function () {
             server.request('get', '/test')
-                .catch(errorData => expect(errorData).toEqual({ error: 'tits' }));
-            $rootScope.$apply();
+                .catch(errorData => expect(errorData).toEqual({ error: error }));
         });
     });
 });

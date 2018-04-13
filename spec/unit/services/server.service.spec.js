@@ -16,11 +16,9 @@ describe('server service', function () {
     });
 
     describe('when executing requests', function () {
-        let expectedResponse;
-
         beforeEach(function () {
             testRoute = '/test';
-            testData = {testData: 'this'};
+            testData = { testData: 'this' };
             responseData = { response: true };
 
             $httpBackend.when('GET', '/test').respond(responseData);

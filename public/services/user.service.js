@@ -7,7 +7,6 @@
         let service = this;
 
         let callbacks = {};
-        let user;
 
         service.on = on;
 
@@ -18,18 +17,22 @@
         service.register = register;
         service.addAccount = addAccount;
 
+        // Exposed for testing
+        service._noUsernamePasswordError = 'Username and password are required';
+        service._cachedUser = null;
+
         function getUser() {
-            if (user) {
-                return $q.resolve(user);
+            if (service._cachedUser) {
+                return $q.resolve(service._cachedUser);
             }
 
             return server.request('get', '/user')
-                .then(data => user = data.user);
+                .then(data => service._cachedUser = data.user);
         }
 
         function register(username, password) {
             if (!username || !password) {
-                return $q.reject('Username and password are required');
+                return $q.reject(service._noUsernamePasswordError);
             }
 
             const newUser = {
@@ -41,23 +44,23 @@
 
             return server.request('post', '/user', newUser)
                 .then(data => {
-                    user = data.user;
-                    return user;
+                    service._cachedUser = data.user;
+                    return service._cachedUser;
                 });
         }
 
         function update(updateObj) {
             return server.request('put', '/user', updateObj)
                 .then(data => {
-                    user = data.user;
+                    service._cachedUser = data.user;
                     if (callbacks['update']) {
                         callbacks['update'].forEach(function(callback) {
                             if (callback) {
-                                callback(user);
+                                callback(service._cachedUser);
                             }
                         });
                     }
-                    return user;
+                    return service._cachedUser;
                 });
         }
 
@@ -70,14 +73,14 @@
         }
 
         function saveUser(newUser) {
-            user = newUser;
+            service._cachedUser = newUser;
         }
 
         function addAccount(newAccount) {
-            user.accounts.push(newAccount);
-            return update({
-                _id: user._id,
-                accounts: user.accounts
+            service._cachedUser.accounts.push(newAccount);
+            return service.update({
+                _id: service._cachedUser._id,
+                accounts: service._cachedUser.accounts
             });
         }
     }

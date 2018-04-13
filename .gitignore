@@ -3,3 +3,4 @@ public/bower_components/
 .idea/
 coverage/
 package-lock.json
+.env

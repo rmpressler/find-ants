@@ -1,1 +1,0 @@
-start command: dbUri=mongodb://findinator:S1290f7992@ds019766.mlab.com:19766/find-ants PORT=3000 npm start

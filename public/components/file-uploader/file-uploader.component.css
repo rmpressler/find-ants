@@ -1,0 +1,20 @@
+.file-upload-dragdrop {
+    height: 250px;
+    width: 250px;
+    border: 1px dashed black;
+    border-radius: 15px;
+    margin: auto;
+}
+
+#file-upload-selector {
+    display: none;
+}
+
+.file-upload-button {
+    width: 250px;
+}
+
+.upload-dragdrop-text-container {
+    font-size: 25px;
+    margin-top: 75px;
+}

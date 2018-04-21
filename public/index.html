@@ -15,10 +15,14 @@
     <!-- Page stylesheets -->
     <link rel="stylesheet" type="text/css" href="pages/home/home.css">
     <link rel="stylesheet" type="text/css" href="pages/dashboard/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="pages/configure-csv/configure-csv.css">
+    <link rel="stylesheet" type="text/css" href="pages/trim-csv/trim-csv.css">
 
     <!-- Component stylesheets -->
     <link rel="stylesheet" type="text/css" href="components/account-list/account-list.css">
     <link rel="stylesheet" type="text/css" href="components/bill-overview/bill-overview.css">
+    <link rel="stylesheet" type="text/css" href="components/file-uploader/file-uploader.component.css">
+    <link rel="stylesheet" type="text/css" href="components/loading-dimmer/loading-dimmer.component.css">
 </head>
 <body ng-app="find-ants">
     <fa-header></fa-header>
@@ -32,6 +36,8 @@
     <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="bower_components/lodash/dist/lodash.min.js"></script>
     <script type="text/javascript" src="bower_components/lodash/dist/lodash.fp.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
+    <script type="text/javascript" src="lib-local/fontawesome/svg-with-js/js/fontawesome-all.min.js"></script>
 
     <!-- Core Scripts -->
     <script type="text/javascript" src="app.js"></script>
@@ -44,14 +50,21 @@
     <script type="text/javascript" src="services/authenticator.service.js"></script>
     <script type="text/javascript" src="services/account.service.js"></script>
     <script type="text/javascript" src="services/server.service.js"></script>
+    <script type="text/javascript" src="services/loading-dimmer.service.js"></script>
 
     <!-- Page Controllers -->
     <script type="text/javascript" src="pages/home/home.controller.js"></script>
     <script type="text/javascript" src="pages/dashboard/dashboard.controller.js"></script>
     <script type="text/javascript" src="pages/account-history/account-history.controller.js"></script>
+    <script type="text/javascript" src="pages/upload-csv/upload-csv.controller.js"></script>
+    <script type="text/javascript" src="pages/configure-csv/configure-csv.controller.js"></script>
+    <script type="text/javascript" src="pages/filter-csv/filter-csv.controller.js"></script>
+    <script type="text/javascript" src="pages/trim-csv/trim-csv.controller.js"></script>
 
     <!-- Standalone Components -->
     <script type="text/javascript" src="components/modals/add-account/add-account.js"></script>
+    <script type="text/javascript" src="components/file-uploader/file-uploader.component.js"></script>
+    <script type="text/javascript" src="components/loading-dimmer/loading-dimmer.component.js"></script>
 
     <!-- Component Controllers -->
     <script type="text/javascript" src="components/account-list/account-list.controller.js"></script>
@@ -64,5 +77,7 @@
     <script type="text/javascript" src="components/header/header.directive.js"></script>
     <script type="text/javascript" src="components/account-list/account-list.directive.js"></script>
     <script type="text/javascript" src="components/bill-overview/bill-overview.directive.js"></script>
+
+    <loading-dimmer-component></loading-dimmer-component>
 </body>
 </html>

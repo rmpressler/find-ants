@@ -1,0 +1,11 @@
+<div class="file-uploader text-center">
+    <div class="file-upload-dragdrop text-center" nv-file-drop uploader="$ctrl.uploader">
+        <div class="upload-dragdrop-text-container">
+            <i class="fas fa-upload upload-icon"></i><br>
+            Drag file here
+        </div>
+    </div>
+    <h3>OR</h3>
+    <input id="file-upload-selector" type="file" nv-file-select uploader="$ctrl.uploader"/><br/>
+    <button class="btn btn-primary file-upload-button" ng-click="$ctrl.openSelector()">Select file to upload</button>
+</div>

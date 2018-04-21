@@ -1,0 +1,14 @@
+.loading-dimmer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    line-height: 75vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: lightblue;
+}
+
+.loading-spinner {
+    font-size: 40px;
+}

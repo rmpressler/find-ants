@@ -1,0 +1,53 @@
+<div class="configure-csv">
+    <div class="text-center">
+        <h2>Filter CSV Location/Description</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-5 col-xs-offset-1">
+            <table class="csv-data-table table table-bordered">
+                <tbody>
+                    <tr ng-repeat="row in $ctrl.csvRows">
+                        <td>{{ row[$ctrl.locationIndex] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-xs-5">
+            <p>
+                Enter any words or phrases you'd like ignored in the location/description field.
+            </p>
+            <form ng-submit="$ctrl.addFilter($ctrl.newFilter)">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr ng-repeat="filter in $ctrl.csvFilters">
+                            <td ng-bind="::filter"></td>
+                            <td>
+                                <button class="btn btn-danger" type="button" ng-click="$ctrl.removeFilter(filter)">
+                                    &times;
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input class="form-control" ng-model="$ctrl.newFilter">
+                            </td>
+                            <td>
+                                <button class="btn btn-primary" type="submit">
+                                    Add
+                                </button>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </form>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-primary pull-right" ng-click="$ctrl.applyFilters()">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

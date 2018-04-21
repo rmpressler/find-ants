@@ -11,6 +11,7 @@ const api               = require('./routes/api');
 const authenticate      = require('./routes/authenticate');
 const user              = require('./routes/user');
 const accounts          = require('./routes/accounts');
+const parseCsv          = require('./routes/parse-csv');
 
 const app = express();
 let appBase = __dirname + '/public/';
@@ -34,6 +35,7 @@ app.use(bodyParser.json());
 app.use(express.static(appBase));
 
 app.use('/authenticate', authenticate);
+app.use('/parse-csv', parseCsv);
 app.use('/user', user);
 app.use('/accounts', accounts);
 

@@ -1,0 +1,39 @@
+<div class="trim-csv">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 text-center">
+            <h2>Select Transactions to Record</h2>
+            <p>
+                Below, select the point at which you'd like to START taking transactions. Once a start is selected
+                and highlighted in green, select where to STOP taking transactions. You will then be able to deselect
+                individual transactions within your selection to remove them from being saved.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <table class="trim-csv-table table table-bordered">
+                <thead>
+                    <tr>
+                        <th ng-repeat="rowHeader in ::$ctrl.rowHeaders" ng-bind="::rowHeader | capitalize"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        ng-repeat="row in $ctrl.csvRows"
+                        ng-click="$ctrl.setRow(row)"
+                        ng-class="{'selected-row': row.isSelected}"
+                        ng-if="$ctrl.startRow === null || $ctrl.endRow === null || row.isSelected">
+                        <td ng-repeat="colValue in row track by $index">{{ colValue }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <button class="btn btn-primary pull-right" ng-click="$ctrl.applyFilters()">Next</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 (function() {
-    angular.module('find-ants', ['ui.router', 'ui.bootstrap']);
+    angular.module('find-ants', ['ui.router', 'ui.bootstrap', 'angularFileUpload']);
 
     // Force initialize ui-router
     angular.module('find-ants').config(setHTML5);

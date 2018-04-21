@@ -6,27 +6,32 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "bower": "^1.7.9",
+    "csv-parse": "^2.2.0",
     "dotenv": "^5.0.1",
     "ejs": "^2.5.1",
     "express": "^4.14.0",
     "express-session": "^1.15.2",
+    "lodash": "^4.17.5",
     "mongoose": "^4.6.0",
     "morgan": "^1.8.1",
     "query-string": "^4.3.4",
     "request": "^2.81.0"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "jasmine-core": "^3.1.0",
     "karma": "^2.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.1",
-    "karma-jasmine": "^1.1.1"
+    "karma-jasmine": "^1.1.1",
+    "mocha": "^5.1.0",
+    "sinon": "^4.5.0"
   },
   "scripts": {
     "prestart": "npm install",
     "postinstall": "bower install",
     "start": "node app.js",
-    "test": "node node_modules/karma/bin/karma start karma.conf.js"
+    "test": "node node_modules/karma/bin/karma start karma.conf.js && node node_modules/mocha/bin/mocha ./routes/*.spec.js"
   },
   "repository": {
     "type": "git",

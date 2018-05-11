@@ -35,6 +35,21 @@
             }
         };
 
+        $ctrl.deselectRow = function deselectRow(row) {
+            row.isSelected = false;
+        };
+
+        $ctrl.selectTransactions = function selectTransactions() {
+            const selectedRows = _.filter({isSelected: true}, $ctrl.csvRows);
+
+            console.log($ctrl.rowHeaders);
+            $state.go('allocate-csv', {
+                parsedCsv: selectedRows,
+                rowHeaders: $ctrl.rowHeaders,
+                csvSettings: $ctrl.csvSettings
+            });
+        };
+
         function ngOnInit() {
             $ctrl.csvRows = $stateParams.parsedCsv;
             $ctrl.csvSettings = $stateParams.csvSettings;

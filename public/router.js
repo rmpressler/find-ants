@@ -72,6 +72,19 @@
             }
         };
 
+        const allocateCsvState = {
+            name: 'allocate-csv',
+            url: '/upload-csv/allocate',
+            templateUrl: '/pages/allocate-csv/allocate-csv.html',
+            controller: 'AllocateCSVController',
+            controllerAs: '$ctrl',
+            params: {
+                parsedCsv: null,
+                rowHeaders: null,
+                csvSettings: null
+            }
+        };
+
         $stateProvider.state(homeState);
         $stateProvider.state(dashboardState);
         $stateProvider.state(accountHistoryState);
@@ -79,5 +92,6 @@
         $stateProvider.state(configureCsvState);
         $stateProvider.state(filterCsvState);
         $stateProvider.state(trimCsvState);
+        $stateProvider.state(allocateCsvState);
     }
 })();

@@ -58,12 +58,11 @@
 
             const parsedCsv = _.map(row => {
                 const newRow = [];
-                _.each(column => {
-                    const index = _.indexOf(column, row);
-                    if ($ctrl.fieldForColumn[index]) {
-                        newRow.push(column);
+                for (i = 0; i < row.length; i++) {
+                    if ($ctrl.fieldForColumn[i]) {
+                        newRow.push(row[i]);
                     }
-                }, row);
+                }
                 return newRow;
             }, $ctrl.csvRows);
 

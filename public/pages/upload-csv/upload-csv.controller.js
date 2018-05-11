@@ -19,6 +19,7 @@
         $ctrl.parseCsv = function (file, rawData) {
             return server.request('post', '/parse-csv', { input: rawData })
                 .then(result => {
+                    console.log(angular.copy(result));
                     loadingDimmer.turnOff();
                     $state.go('configure-csv', { parsedCsv: result.output })
                 });

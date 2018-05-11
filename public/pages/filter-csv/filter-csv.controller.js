@@ -54,7 +54,7 @@
                 rowHeaders: $ctrl.rowHeaders,
                 csvSettings: {
                     filters: $ctrl.csvFilters,
-                    ...$stateParams.csvSettings
+                    ...$ctrl.csvSettings
                 }
             });
         };

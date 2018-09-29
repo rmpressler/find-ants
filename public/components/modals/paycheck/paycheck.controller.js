@@ -2,9 +2,9 @@
     angular.module('find-ants')
         .controller('PaycheckController', PaycheckController);
 
-    PaycheckController.$inject = ['$uibModalInstance', 'userService', '$filter', 'accountService',
+    PaycheckController.$inject = ['$uibModalInstance', '$filter', 'accountService',
         'CurrentUser', '$q'];
-    function PaycheckController($uibModalInstance, userService, $filter, accountService,
+    function PaycheckController($uibModalInstance, $filter, accountService,
         CurrentUser, $q) {
         var vm = this;
 
@@ -129,20 +129,28 @@
         }
 
         function logPaycheck() {
-            let updates = [];
+            let updates = {}, promises = [];
             vm.allocations.forEach(function(alloc) {
-                logTransaction(alloc.account, alloc.description, alloc.amount);
+                if (!updates[alloc.account]) {
+                    updates[alloc.account] = [];
+                }
+
+                updates[alloc.account].push({
+                    date: vm.check.date,
+                    description: alloc.description,
+                    amount: alloc.amount
+                })
             });
 
-            vm.accounts.forEach(account => {
-                updates.push(accountService.update({
-                    _id: account._id,
-                    transactions: account.transactions
-                }));
-            });
+            for (let accountId in updates) {
+                if (updates.hasOwnProperty(accountId)) {
+                    const update = accountService.logTransactions(accountId, updates[accountId]);
+                    promises.push(update);
+                }
+            }
 
             $q
-                .all(updates)
+                .all(promises)
                 .then(accountService.notify)
                 .then(close);
         }

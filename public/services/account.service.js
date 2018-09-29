@@ -13,6 +13,7 @@
         service.create = create;
         service.subscribe = subscribe;
         service.notify = notify;
+        service.logTransactions = logTransactions;
 
         function getAccountBalance(account) {
             return account.transactions.reduce(addValue, 0);
@@ -33,6 +34,11 @@
 
         function create(newAccount) {
             return server.request('post', '/accounts', newAccount)
+                .then(data => data.account);
+        }
+
+        function logTransactions(accountId, transactions) {
+            return server.request('post', '/transactions', {accountId, transactions})
                 .then(data => data.account);
         }
 

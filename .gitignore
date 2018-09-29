@@ -4,3 +4,4 @@ public/bower_components/
 coverage/
 package-lock.json
 .env
+npm-debug.log

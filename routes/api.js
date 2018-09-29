@@ -17,7 +17,8 @@ var BillSchema = mongoose.Schema({
 var TransactionSchema = mongoose.Schema({
     date:           Date,
     description:    String,
-    amount:         Number
+    amount:         Number,
+    location:       String
 });
 
 var AccountSchema = mongoose.Schema({
@@ -25,11 +26,18 @@ var AccountSchema = mongoose.Schema({
     transactions:   [TransactionSchema]
 });
 
+var CSVSettingsSchema = mongoose.Schema({
+    columnAssignments:  [Number],
+    hasHeaderRow:       Boolean,
+    locationFilters:    [String]
+});
+
 var UserSchema = mongoose.Schema({
     username:       String,
     password:       String,
     bills:          [BillSchema],
-    accounts:       [mongoose.Schema.ObjectId]
+    accounts:       [mongoose.Schema.ObjectId],
+    csvSettings:    CSVSettingsSchema
 });
 
 var Users = mongoose.model('Users', UserSchema);
@@ -39,6 +47,7 @@ var Accounts = mongoose.model('Accounts', AccountSchema);
     exports.create = create;
     exports.read = read;
     exports.update = update;
+    exports.Accounts = Accounts;
 
     var tableToSchema = {
         users: Users,

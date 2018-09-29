@@ -1,0 +1,45 @@
+<div class="configure-csv">
+    <div class="text-center">
+        <h2>Configure CSV</h2>
+        <p>
+            Above each column, use the dropdown to select which column represents each field.
+        </p>
+        <input type="checkbox" ng-model="$ctrl.csvHasHeaderRow"> This .CSV has a header row (this lets us know not to use it in calculations)
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <table class="csv-data-table table table-bordered">
+                <thead>
+                    <tr>
+                        <th ng-repeat="column in $ctrl.firstRow">
+                            <select
+                                    class="form-control"
+                                    ng-options="field.value as field.name for field in $ctrl.fields"
+                                    ng-model="$ctrl.fieldForColumn[$index]"></select>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in $ctrl.csvRows | limitTo:5">
+                        <td ng-class="{'csv-header-row': $ctrl.isHeaderRow(row)}" ng-repeat="colValue in row track by $index">{{ colValue }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <span class="pull-right">
+                <input type="checkbox" ng-model="$ctrl.saveSettings"> Save my settings for next time
+            </span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+           <button class="btn btn-primary pull-right" ng-click="$ctrl.assignColumns()">Next</button>
+        </div>
+    </div>
+</div>

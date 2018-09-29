@@ -1,0 +1,7 @@
+<div class="text-center">
+    <h2>Upload CSV</h2>
+</div>
+
+<div class="file-uploader-container">
+    <file-uploader on-file-uploaded="$ctrl.parseCsv(file, rawData)" on-file-upload-started="$ctrl.activateDimmer()"></file-uploader>
+</div>

@@ -12,6 +12,7 @@ const authenticate      = require('./routes/authenticate');
 const user              = require('./routes/user');
 const accounts          = require('./routes/accounts');
 const parseCsv          = require('./routes/parse-csv');
+const transactionsHandler = require('./routes/transactions');
 
 const app = express();
 let appBase = __dirname + '/public/';
@@ -42,6 +43,8 @@ app.use('/accounts', accounts);
 app.get('/api/:table', api.read);
 app.post('/api/:table', api.create);
 app.put('/api/:table', api.update);
+
+app.post('/transactions', transactionsHandler);
 
 app.get('/*', routes.indexHandler);
 

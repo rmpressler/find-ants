@@ -47,6 +47,7 @@ var Accounts = mongoose.model('Accounts', AccountSchema);
     exports.create = create;
     exports.read = read;
     exports.update = update;
+    exports.Accounts = Accounts;
 
     var tableToSchema = {
         users: Users,

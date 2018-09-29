@@ -15,9 +15,14 @@
             const creditIndex = _.indexOf('credit', $ctrl.rowHeaders);
 
             const promises = [];
+            const updates = {};
 
             _.each(row => {
-                const account = _.find({_id: row[accountIdIndex]}, $ctrl.accounts);
+                const accountId = row[accountIdIndex];
+
+                if (!updates[accountId]) {
+                    updates[accountId] = [];
+                }
 
                 const transaction = {
                     location: row[locationIndex],
@@ -26,14 +31,15 @@
                     description: row[descriptionIndex]
                 };
 
-                account.transactions.push(transaction);
+                updates[accountId].push(transaction);
             }, $ctrl.csvRows);
 
-            _.each(account => {
-                const promise = accountService.update(_.pick(['_id', 'transactions'], account))
-                    .catch(console.log);
-                promises.push(promise);
-            }, $ctrl.accounts);
+            for (let accountId in updates) {
+                if (updates.hasOwnProperty(accountId)) {
+                    const update = accountService.logTransactions(accountId, updates[accountId]);
+                    promises.push(update);
+                }
+            }
 
             $q.all(promises)
                 .then(() => $state.go('dashboard'));
@@ -51,8 +57,6 @@
             if (!$ctrl.csvRows || !$ctrl.csvSettings) {
                 return $state.go('upload-csv');
             }
-
-            console.log(angular.copy($stateParams));
 
             $ctrl.accountIdIndex = $ctrl.rowHeaders.length;
             $ctrl.descriptionIndex = $ctrl.rowHeaders.length + 1;

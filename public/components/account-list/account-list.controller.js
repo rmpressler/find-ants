@@ -33,10 +33,7 @@
                 .result.then(newSpending => {
                     account.transactions = account.transactions.concat(newSpending);
                     accountService
-                        .update({
-                            _id: account._id,
-                            transactions: account.transactions
-                        })
+                        .logTransactions(account._id, newSpending)
                         .then(refreshBalances);
                 });
         }
